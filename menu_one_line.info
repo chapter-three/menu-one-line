@@ -1,0 +1,20 @@
+name = Menu One Line
+description = This restricts the main menu to show on only one line
+package = Menu
+core = 7.x
+project = "menu_one_line"
+php = 5.3
+
+files[] = menu_one_line.module
+;dependencies[] =
+configure = admin/config/user-interface/menu-one-line
+scripts[] = js/menu_one_line.js
+
+stylesheets[all][] = css/menu_one_line.css
+
+
+
+; Tell Drupal this dev version
+version = 7.x-1.0
+
+

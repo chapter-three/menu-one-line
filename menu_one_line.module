@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * @file
+ * Restricts the main menu to only one line
+ *
+ *
+ */
+
+/**
+ * Implements hook_page_build
+ *
+ */
+function menu_one_line_page_build(&$page) {
+  $menu_one_line_class_selector = variable_get('menu_one_line');
+  $main_menu_class = array('class' => $menu_one_line_class_selector);
+  drupal_add_js(array('menu_one_line' => $main_menu_class), 'setting');
+}
+
+
+function menu_one_line_menu() {
+  $items = array();
+  $items['admin/config/user-interface/menu-one-line'] = array(
+    'title' => 'Menu One Line',
+    'description' => 'Configure classes for the main menu.   ',
+    'weight' => 10,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('menu_one_line_configuration_form'),
+    'access arguments' => array('access administration pages'),
+  );
+
+  return $items;
+}
+
+
+function menu_one_line_configuration_form($form, $form_state, $form_id) {
+
+  $form['menu_one_line_class'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Class selector for the main menu',
+    '#description' => 'Example: .menu-main-menu. Must be an ancestor of the main menu "ul" tag, not a class within the "ul" tag itself. Must also include the dot (".") if selector is a class or "#" if an id selector.',
+    '#default_value' => variable_get('menu_one_line'),
+  );
+
+  $form['menu_one_line_submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit',
+  );
+
+  return $form;
+}
+
+function menu_one_line_configuration_form_submit($form, &$form_state) {
+  $menu_one_line_class_selector = $form_state['values']['menu_one_line_class'];
+  variable_set('menu_one_line', $menu_one_line_class_selector);
+}
